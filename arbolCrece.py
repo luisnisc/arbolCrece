@@ -65,17 +65,26 @@ def visualize_binary_tree(root):
 
 import random
 
-def add_random_nodes(root, num_nodes):
-    # Inserta nuevos nodos con números aleatorios
-    for _ in range(num_nodes):
-        # Genera un número aleatorio para el nuevo nodo
+def add_ordered_nodes(root, num_nodes):
+    # Inserta nuevos nodos en orden
+    for i in range(num_nodes):
+        # Genera un número aleatorio entre 10 y 100 para el nuevo nodo
         new_key = random.randint(10, 100)
         # Inserta el nuevo nodo
         root = insert(root, new_key)  # Pasa la raíz al llamar a insert
+        # Si hay más nodos por insertar, los inserta en el subárbol de este nodo
+        if i + 1 < num_nodes:
+            root.left = insert(root.left, random.randint(10, 100))
+            if i + 2 < num_nodes:
+                root.right = insert(root.right, random.randint(10, 100))
+            # Avanza el contador para reflejar los nodos que acabamos de insertar
+            i += 2
+    return root
+
 root = None
 keys = [5, 3, 7, 2, 4, 6, 8]
 for key in keys:
     root = insert(root, key)
 visualize_binary_tree(root)
-add_random_nodes(root, 2)
+root = add_ordered_nodes(root, 5)
 visualize_binary_tree(root)
